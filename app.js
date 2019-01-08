@@ -33,11 +33,9 @@ app.post('/addUser', function (req, res) {
     data = JSON.parse(data)
     let arrofkey = Object.keys(data)
     let key = parseInt(data['user' + arrofkey.length].id)
-    console.log(arrofkey)
     while (arrofkey.findIndex(a => a === 'user' + key) !== -1) {
       key++
     }
-    console.log(key)
     req.body.id = key
     data['user' + key] = req.body
     let jsondata = JSON.stringify(data)
@@ -85,7 +83,9 @@ app.delete('/deleteUser/:id', function (req, res) {
     delete data['user' + id]
     let jsondata = JSON.stringify(data)
     fs.writeFile('users.json', jsondata, 'utf8', (err, data) => {
-      if (err) console.log(err)
+      if (err) {
+        console.log(err)
+      }
       res.status(400)
       res.send(err)
     })

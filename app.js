@@ -40,9 +40,11 @@ app.post('/addUser', function (req, res) {
     data['user' + key] = req.body
     let jsondata = JSON.stringify(data)
     fs.writeFile('users.json', jsondata, 'utf8', (err, data) => {
-      if (err) console.log(err)
-      res.status(400)
-      res.send(err)
+      if (err) {
+        console.log(err)
+        res.status(400)
+        res.send(err)
+      }
     })
     res.status(201)
     res.send(data)
@@ -67,9 +69,10 @@ app.post('/addMultiUser', function (req, res) {
     fs.writeFile('users.json', jsondata, 'utf8', (err, data) => {
       if (err) {
         console.log(err)
+        res.status(400)
+        res.send(err)
       }
-      res.status(400)
-      res.send(err)
+
     })
     res.status(201)
     res.send(data)
@@ -85,9 +88,10 @@ app.delete('/deleteUser/:id', function (req, res) {
     fs.writeFile('users.json', jsondata, 'utf8', (err, data) => {
       if (err) {
         console.log(err)
+        res.status(400)
+        res.send(err)
       }
-      res.status(400)
-      res.send(err)
+
     })
     res.status(200)
     res.send(data)

@@ -67,7 +67,9 @@ app.post('/addMultiUser', function (req, res) {
     }
     let jsondata = JSON.stringify(data)
     fs.writeFile('users.json', jsondata, 'utf8', (err, data) => {
-      if (err) console.log(err)
+      if (err) {
+        console.log(err)
+      }
       res.status(400)
       res.send(err)
     })

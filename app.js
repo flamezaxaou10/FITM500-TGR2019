@@ -91,7 +91,6 @@ app.delete('/deleteUser/:id', function (req, res) {
         res.status(400)
         res.send(err)
       }
-
     })
     res.status(200)
     res.send(data)

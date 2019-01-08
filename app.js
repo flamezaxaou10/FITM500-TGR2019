@@ -59,7 +59,6 @@ app.post('/addMultiUser', function (req, res) {
     for (let i = 0; i < numData.length; i++) {
       let arrofkey = Object.keys(data)
       let key = parseInt(data['user' + arrofkey.length].id)
-      console.log(arrofkey)
       while (arrofkey.findIndex(a => '' + a === 'user' + key) !== -1) {
         key++
       }

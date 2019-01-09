@@ -20,7 +20,10 @@ router.post('/addData', (req, res, next) => {
 })
 
 router.post('/receiveData', (req, res, next) => {
-  temperature.create(req.body, function (err, payload) {
+  temperature.create({
+    teamID: '10',
+    temp: req.body.payload_parsed.frames[0].value
+  }, function (err, payload) {
     if (err) return next(err)
     console.log(req.body)
     res.json(payload)

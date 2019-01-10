@@ -9,14 +9,29 @@ router.get('/getSanam', (req, res, next) => {
     timestamp: {
       $gte: new Date((Date.now() - (parseInt(hours) * 60 * 60 * 1000)))
     }
-  }).exec(function (err, payload) {
+  }).sort('-timestamp').exec(function (err, payload) {
     if (err) {
       res.status(401)
       res.send({
         msg: 'bad values >> not value: hours'
       })
     }
-    res.json(payload)
+    let arrPayload = []
+    for (var i = 0; i < hours; i++) {
+      arrPayload[i] = 0
+    }
+    let checkTime = 0
+    payload.map((value) => {
+      if (value.timestamp >= Date.now() - (parseInt(checkTime + 1) * 60 * 60 * 1000)) {
+        if (value.pIn > 0)
+          arrPayload[checkTime]++
+      } else {
+        checkTime++
+        if (value.pIn > 0)
+          arrPayload[checkTime]++
+      }
+    })
+    res.json(arrPayload)
     res.status(200)
   })
 })
@@ -31,7 +46,7 @@ router.post('/putSanam', async (req, res, next) => {
     if (err) return next(err)
   })
   var amountPeople = 0
-   beaconData.find().exec(function (err, payload) {
+  beaconData.find().exec(function (err, payload) {
     let pIn = payload.reduce((result, value) => result + value.pIn, 0)
     let pOut = payload.reduce((result, value) => result + value.pOut, 0)
     amountPeople = pIn - pOut
@@ -50,6 +65,13 @@ router.get('/getAmountPeople', (req, res, next) => {
     req.body.amountPeople = amountPeople
     res.json(req.body)
     res.status(201)
+  })
+})
+
+router.get('/getAll', (req, res, next) => {
+  beaconData.find().exec(function (err, payload) {
+    res.json(payload)
+    res.status(200)
   })
 })
 

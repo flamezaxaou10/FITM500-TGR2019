@@ -9,11 +9,11 @@ const logger = require('morgan')
 var beaconData = require('./routes/beaconData')
 var sensorData = require('./routes/sensorData')
 
- mongoose.Promise = require('bluebird')
-//  mongoose.connect('mongodb://fitm500:fitm500@localhost/integration', { useMongoClient: true, promiseLibrary: require('bluebird') })
-mongoose.connect('mongodb://localhost/integration', { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.Promise = require('bluebird')
+mongoose.connect('mongodb://fitm500:fitm500@localhost/integration', { useMongoClient: true, promiseLibrary: require('bluebird') })
+// mongoose.connect('mongodb://localhost/integration', { useMongoClient: true, promiseLibrary: require('bluebird') })
   .then(() => console.log('MongoDB Connection Succesful'))
- .catch((err) => console.error(err))
+  .catch((err) => console.error(err))
 
 app.use(logger('dev'))
 app.use(bodyParser.json({ limit: '50mb', extended: true }))
@@ -27,6 +27,10 @@ app.get('/', (req, res) => {
   res.send('RESTFul-API @FITM500-TGR2019')
 })
 
+app.get('/predict', (req, res) => {
+  res.status(200)
+  res.send('Wait Machine Learning')
+})
 
 
 let server = app.listen(port, () => {

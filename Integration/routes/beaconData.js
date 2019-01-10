@@ -22,30 +22,39 @@ router.get('/getSanam', (req, res, next) => {
     }
     let checkTime = 0
     let moment = require('moment')
-    let date = new Date()
-    let date7 = moment(date)
-    let dateSuccess = moment(date7).subtract({
-      minutes: parseInt(moment(date7).format('mm')),
-      seconds: parseInt(moment(date7).format('ss'))
-    })
-    dateSuccess = dateSuccess.subtract(1, 'hours').format('x')
-    payload.map((value) => {
-      let timestamp = new Date(value.timestamp).getTime()
-      // console.log(moment(timestamp).format('x'), parseInt(dateSuccess))
-      if (moment(timestamp).format('x') >= parseInt(dateSuccess)) {
-        if (value.pIn > 0)
-          arrPayload[checkTime]++
+    let date = new Date(Date.now())
+    let date7 = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), 0)
+    console.log('date', moment(date7))
+    let dateSuccess = moment(date7).format('x') - (3600 * 1000)
+    payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
+    payload.forEach((value) => {
+      let timestamp = moment(new Date(value.timestamp)).format('x')
+      if (timestamp - dateSuccess >= 0) {
+        arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
       } else {
-        ++checkTime
-        dateSuccess = moment(date7).subtract({
-          minutes: parseInt(moment(date7).format('mm')),
-          seconds: parseInt(moment(date7).format('ss'))
-        })
-        dateSuccess = dateSuccess.subtract(checkTime+1, 'hours').format('x')
-        if (value.pIn > 0)
-          arrPayload[checkTime]++
+        checkTime++
+        dateSuccess = dateSuccess - (3600 * 1000)
       }
     })
+    // payload.forEach((value) => {
+    //   let timestamp = new Date(value.timestamp).getTime()
+    //   // console.log(value.timestamp)
+    //   if (moment(timestamp).format('x') >= parseInt(dateSuccess)) {
+    //     if (value.pIn > 0) {
+    //       arrPayload[checkTime]++
+    //     } 
+    //   } else {
+    //     checkTime++
+    //     if (value.pIn > 0) {
+    //       arrPayload[checkTime]++
+    //     }
+    //     dateSuccess = moment(date7).subtract({
+    //       minutes: parseInt(moment(date7).format('mm')),
+    //       seconds: parseInt(moment(date7).format('ss'))
+    //     })
+    //     dateSuccess = dateSuccess.subtract(checkTime+1, 'hours').format('x')
+    //   }
+    // })
     res.json({
       "number_of_tourist": arrPayload
     })

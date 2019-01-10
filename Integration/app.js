@@ -23,7 +23,7 @@ app.use(bodyParser.json({ limit: '50mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 // Route
 app.use('/', beaconData)
-app.use('/', sensorData)
+app.use('/sensorData', sensorData)
 
 app.get('/', (req, res) => {
   res.status(200)

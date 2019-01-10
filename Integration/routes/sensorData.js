@@ -12,8 +12,13 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  console.log(req.body)
-  sensorData.create(req.body, function (err, payload) {
+  let payload = {
+    pIn: req.body.payload_parsed[0].value,
+    pOut: req.body.payload_parsed[1].value,
+    temperature: req.body.payload_parsed[2].value,
+    humidity: req.body.payload_parsed[3].value
+  }
+  sensorData.create(payload, function (err, payload) {
     if (err) return next(err)
     res.json(payload)
     res.status(201)

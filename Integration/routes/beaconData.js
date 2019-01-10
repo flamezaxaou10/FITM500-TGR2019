@@ -21,17 +21,34 @@ router.get('/getSanam', (req, res, next) => {
       arrPayload[i] = 0
     }
     let checkTime = 0
+    let moment = require('moment')
+    let date = new Date()
+    let date7 = moment(date)
+    let dateSuccess = moment(date7).subtract({
+      minutes: parseInt(moment(date7).format('mm')),
+      seconds: parseInt(moment(date7).format('ss'))
+    })
+    dateSuccess = dateSuccess.subtract(1, 'hours').format('x')
     payload.map((value) => {
-      if (value.timestamp >= Date.now() - (parseInt(checkTime + 1) * 60 * 60 * 1000)) {
+      let timestamp = new Date(value.timestamp).getTime()
+      // console.log(moment(timestamp).format('x'), parseInt(dateSuccess))
+      if (moment(timestamp).format('x') >= parseInt(dateSuccess)) {
         if (value.pIn > 0)
           arrPayload[checkTime]++
       } else {
-        checkTime++
+        ++checkTime
+        dateSuccess = moment(date7).subtract({
+          minutes: parseInt(moment(date7).format('mm')),
+          seconds: parseInt(moment(date7).format('ss'))
+        })
+        dateSuccess = dateSuccess.subtract(checkTime+1, 'hours').format('x')
         if (value.pIn > 0)
           arrPayload[checkTime]++
       }
     })
-    res.json(arrPayload)
+    res.json({
+      "number_of_tourist": arrPayload
+    })
     res.status(200)
   })
 })

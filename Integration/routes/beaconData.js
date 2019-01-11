@@ -4,6 +4,7 @@ var router = express.Router()
 var beaconData = require('../models/beaconData.js')
 var read = require('../tensorflow/read')
 let Tensorflow = require('../tensorflow/tensorflow_provider')
+let moment = require('moment')
 
 router.get('/getSanam', (req, res, next) => {
   let hours = req.query.hours
@@ -28,7 +29,6 @@ router.get('/getSanam', (req, res, next) => {
       arrPayload[i] = 0
     }
     let checkTime = 0
-    let moment = require('moment')
     let date = new Date(Date.now())
     let date7 = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), 0)
     let dateSuccess = moment(date7).format('x') - (3600 * 1000)

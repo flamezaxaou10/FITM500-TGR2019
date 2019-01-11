@@ -10,7 +10,7 @@ router.get('/getSanam', (req, res, next) => {
   let hours = req.query.hours
   let firstTime = 0
   beaconData.find().limit(1).sort('-timestamp').exec(function (err, payload) {
-    firstTime = moment(new Date(payload[0].timestamp)).formax('x')
+    firstTime = moment(new Date(payload[0].timestamp)).format('x')
   })
 
   beaconData.find({

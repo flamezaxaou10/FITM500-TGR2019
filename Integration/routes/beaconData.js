@@ -38,6 +38,7 @@ router.get('/getSanam', (req, res, next) => {
         res.json({
           msg: 'not enough value.'
         })
+        break;
       }
       if (timestamp - dateSuccess >= 0) {
         if (value.pIn > 0)

@@ -32,9 +32,12 @@ router.get('/getSanam', (req, res, next) => {
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
       if (timestamp - dateSuccess >= 0) {
-        arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
       } else {
         checkTime++
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
         dateSuccess = dateSuccess - (3600 * 1000)
       }
     })
@@ -88,7 +91,7 @@ router.get('/getAll', (req, res, next) => {
 router.get('/predict', (req, res, next) => {
   beaconData.find().sort('-timestamp').exec(function (err, payload) {
     let arrPayload = []
-    for (var i = 0; i < hours; i++) {
+    for (var i = 0; i < payload.length; i++) {
       arrPayload[i] = 0
     }
     let checkTime = 0
@@ -101,9 +104,12 @@ router.get('/predict', (req, res, next) => {
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
       if (timestamp - dateSuccess >= 0) {
-        arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
       } else {
         checkTime++
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
         dateSuccess = dateSuccess - (3600 * 1000)
       }
     })
@@ -142,7 +148,7 @@ router.get('/predict', (req, res, next) => {
 router.get('/train', (req, res, next) => {
   beaconData.find().sort('-timestamp').exec(async function (err, payload) {
     let arrPayload = []
-    for (var i = 0; i < hours; i++) {
+    for (var i = 0; i < payload.length; i++) {
       arrPayload[i] = 0
     }
     let checkTime = 0
@@ -155,9 +161,12 @@ router.get('/train', (req, res, next) => {
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
       if (timestamp - dateSuccess >= 0) {
-        arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
       } else {
         checkTime++
+        if (value.pIn > 0)
+          arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
         dateSuccess = dateSuccess - (3600 * 1000)
       }
     })
@@ -170,7 +179,7 @@ router.get('/train', (req, res, next) => {
     }
 
     await main();
-    res.send("Test")
+    res.send("Test Sucess")
   })
 })
 

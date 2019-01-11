@@ -3,7 +3,7 @@ var csv = require('fast-csv')
 module.exports = function readCSV (dataFromDataBase = [10, 50, 64, 0, 0 , 2, 3, 1]) {
   let data = []
   return new Promise(function(resolve, reject) {
-      csv.fromPath('../tensorflow/sanam.csv').on("data",(str) => {
+      csv.fromPath('sanam.csv').on("data",(str) => {
         let arrayData = str[0].split(';')
         for (let index = 1; index < arrayData.length; index++) {
           // ตัด 0

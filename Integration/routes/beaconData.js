@@ -139,7 +139,7 @@ router.get('/predict', (req, res, next) => {
   })
 })
 
-router.get('/train', (req, res, next) => {
+router.get('/train',async (req, res, next) => {
   beaconData.find().sort('-timestamp').exec(function (err, payload) {
     let arrPayload = []
     for (var i = 0; i < hours; i++) {

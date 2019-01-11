@@ -33,13 +33,12 @@ router.get('/getSanam', (req, res, next) => {
     payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
-      if (new Date((Date.now() - (parseInt(hours) * 60 * 60 * 1000))) < firstTime) {
-        res.status(404)
-        res.json({
-          msg: 'not enough value.'
-        })
-        break;
-      }
+      // if (new Date((Date.now() - (parseInt(hours) * 60 * 60 * 1000))) < firstTime) {
+      //   res.status(404)
+      //   res.json({
+      //     msg: 'not enough value.'
+      //   })
+      // }
       if (timestamp - dateSuccess >= 0) {
         if (value.pIn > 0)
           arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1

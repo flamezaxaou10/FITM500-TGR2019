@@ -26,7 +26,6 @@ router.get('/getSanam', (req, res, next) => {
     let moment = require('moment')
     let date = new Date(Date.now())
     let date7 = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), 0)
-    console.log('date', moment(date7))
     let dateSuccess = moment(date7).format('x') - (3600 * 1000)
     payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
     payload.forEach((value) => {
@@ -98,7 +97,6 @@ router.get('/predict', (req, res, next) => {
     let moment = require('moment')
     let date = new Date(Date.now())
     let date7 = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), 0)
-    console.log('date', moment(date7))
     let dateSuccess = moment(date7).format('x') - (3600 * 1000)
     payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
     payload.forEach((value) => {
@@ -137,7 +135,7 @@ router.get('/predict', (req, res, next) => {
       ])
       res.status(200)
       res.json({
-        number_of_tourist: result
+        number_of_tourist: result.result
       })
     }
 

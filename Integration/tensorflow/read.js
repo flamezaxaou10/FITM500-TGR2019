@@ -23,7 +23,6 @@ module.exports = function readCSV (dataFromDataBase = [10, 50, 64, 0, 0 , 2, 3, 
         
         data = dataFromDataBase.concat(data)
         data = data.splice(data.length - 8000, data.length)
-        console.log('number of data: ',data.length)
         let xData = []
         let yData = []
         let maxData = -9999

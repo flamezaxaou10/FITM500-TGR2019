@@ -9,9 +9,6 @@ let moment = require('moment')
 router.get('/getSanam', (req, res, next) => {
   let hours = req.query.hours
   let firstTime = 0
-  beaconData.find().limit(1).sort('timestamp').exec(function (err, payload) {
-    firstTime = moment(new Date(payload[0].timestamp)).format('x')
-  })
 
   beaconData.find({
     timestamp: {
@@ -28,6 +25,7 @@ router.get('/getSanam', (req, res, next) => {
     for (var i = 0; i < hours; i++) {
       arrPayload[i] = 0
     }
+    firstTime = moment(new Date(payload[payload.length - 1].timestamp)).format('x')
     let checkTime = 0
     let date = new Date(Date.now())
     let date7 = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), 0)
@@ -35,7 +33,7 @@ router.get('/getSanam', (req, res, next) => {
     payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
-      if (timestamp < firstTime) {
+      if (new Date((Date.now() - (parseInt(hours) * 60 * 60 * 1000))) < firstTime) {
         res.status(404)
         res.json({
           msg: 'not enough value.'

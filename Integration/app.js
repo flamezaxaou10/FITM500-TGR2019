@@ -27,12 +27,6 @@ app.get('/', (req, res) => {
   res.send('RESTFul-API @FITM500-TGR2019')
 })
 
-app.get('/predict', (req, res) => {
-  res.status(200)
-  res.send('Wait Machine Learning')
-})
-
-
 let server = app.listen(port, () => {
   let port = server.address().port
   console.log('Start server at port ' + port + ' >> localhost:' + port)

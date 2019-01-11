@@ -7,6 +7,11 @@ let Tensorflow = require('../tensorflow/tensorflow_provider')
 
 router.get('/getSanam', (req, res, next) => {
   let hours = req.query.hours
+  let firstTime = 0
+  beaconData.find().limit(1).sort('-timestamp').exec(function (err, payload) {
+    firstTime = moment(new Date(payload[0].timestamp)).formax('x')
+  })
+
   beaconData.find({
     timestamp: {
       $gte: new Date((Date.now() - (parseInt(hours) * 60 * 60 * 1000)))
@@ -30,6 +35,12 @@ router.get('/getSanam', (req, res, next) => {
     payload = payload.filter(data => moment(new Date(data.timestamp)).format('x') - dateSuccess < (3600 * 1000))
     payload.forEach((value) => {
       let timestamp = moment(new Date(value.timestamp)).format('x')
+      if (timestamp < firstTime) {
+        res.status(404)
+        res.json({
+          msg: 'not enough value.'
+        })
+      }
       if (timestamp - dateSuccess >= 0) {
         if (value.pIn > 0)
           arrPayload[checkTime] = arrPayload[checkTime] ? arrPayload[checkTime] + 1 : 1
